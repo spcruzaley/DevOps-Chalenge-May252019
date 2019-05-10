@@ -113,28 +113,31 @@ Despues de la teoría, vamos a la ejecución, cabe mencionar que esta propuesta 
 
 ##### Vámos a ello...
 #
-Una vez descargado el repositorio a tu equipo, bastará simplemente con **ejecuar el shell *`start.sh`***
+Una vez descargado el repositorio a tu equipo, bastará simplemente con **ejecuar el shell *`start.sh`***, principalmente el shell se encarga de ejecutar los comandos necesarios de kubernetes, por lo que es probable que tarde un poco debido a que tiene que descargar la imagen que se utilizará.
 
 ```sh
 $ ./start.sh
 ```
-![alt start 1](http://www.cruzaley-web.com/wp-content/uploads/2019/05/start-shell.png)
+![alt start 1](http://www.cruzaley-web.com/wp-content/uploads/2019/05/start-new.png)
+
+En caso de que exista algun error con kubernetes, el shell enviara el error con la descripción y dara de baja el pod.
+
+![alt start-stop](http://www.cruzaley-web.com/wp-content/uploads/2019/05/error-starting.png)
 
 Comprobamos que la DB esta en funcionamiento y que, tanto la **base de datos y la tabla se hayan creado** con los datos indicados.
 
 ![alt DB](http://www.cruzaley-web.com/wp-content/uploads/2019/05/query-table.png)
 
-Y validar que el pod esta en ejecución
+Y podemos validar que el pod esta en ejecución con el siguiente comando
 ```sh
 $ kubectl get pods
 ```
-![alt start 2](http://www.cruzaley-web.com/wp-content/uploads/2019/05/start-shell-2.png)
 
 Por último detenemos el pod, ejecuando el siguiente shell, para generar el correo de notificación
 ```sh
 $ ./stop.sh
 ```
-![alt stop](http://www.cruzaley-web.com/wp-content/uploads/2019/05/stop-shell.png)
+![alt stop](http://www.cruzaley-web.com/wp-content/uploads/2019/05/stop-new.png)
 
 Comprobamos la bandeja de entrada de la cuenta configurada para **recibir las notificaciones**
 
