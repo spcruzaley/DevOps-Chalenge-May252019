@@ -1,23 +1,25 @@
-from __future__ import print_function
-import pickle
-import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from email.mime.text import MIMEText
 import smtplib
+import os.path
+import base64
+import pickle
 import sys
+import os
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
-def main(sender, receiver, subject, body, pwdSender, path):
+def get_service(path):
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
     if os.path.exists(path + '/token.pickle'):
         with open(path + '/token.pickle', 'rb') as token:
-            creds = pickle.load(token) #, encoding='latin1')
+            creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -30,36 +32,55 @@ def main(sender, receiver, subject, body, pwdSender, path):
         with open(path + '/token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
-    # creates SMTP session
-    s = smtplib.SMTP('smtp.gmail.com', 587)
+    try:
+        service = build('gmail', 'v1', credentials=creds)
+        return service
+    except error:
+        print("Error getting the service - $s" % error)
 
-    # start TLS for security
-    s.starttls()
+def create_message(to, subject, message_text):
+    """Create a message for an email.
 
-    # Authentication
-    s.login(sender, pwdSender)
+    Args:
+      to: Email address of the receiver.
+      subject: The subject of the email message.
+      message_text: The text of the email message.
 
-    # message to be sent
-    message = "\r\n".join([
-      "From: " + sender,
-      "To: " + receiver,
-      "Subject: " + subject,
-      "",
-      body
-    ])
+    Returns:
+      An object containing a base64url encoded email object.
+    """
+    message = MIMEText(message_text)
+    message['to'] = to
+    message['subject'] = subject
 
-    # sending the mail
-    s.sendmail(sender, receiver, message)
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
 
-    # terminating the session
-    s.quit()
+def send_message(service, message):
+    """Send an email message.
+
+    Args:
+      service: Authorized Gmail API service instance.
+      message: Message to be sent.
+
+    Returns:
+      Sent Message.
+    """
+    try:
+        message = (service.users().messages().send(userId='me', body=message)
+                   .execute())
+        print("Message Id: %s" % message['id'])
+        return message
+    except Exception as e:
+        print("Error occurred %s:" % e)
 
 if __name__ == '__main__':
-    sender = sys.argv[1]
-    receiver = sys.argv[2]
-    subject = sys.argv[3]
-    body = sys.argv[4]
-    pwdSender = sys.argv[5]
-    path = sys.argv[6]
+    #Note that the environment variables should be exist, in other case the
+    #send email process will fail
+    receiver = os.environ['GMAIL_RECEIVER']
+    subject = os.environ['GMAIL_SUBJECT']
+    body = os.environ['GMAIL_BODY']
+    path = os.environ['WORK_DIR']
 
-    main(sender, receiver, subject, body, pwdSender, path)
+    message = create_message(receiver, subject, body)
+    service = get_service(path)
+    send_message(service, message)

@@ -34,7 +34,7 @@ spec:
                 - /bin/bash
                 - -c
                 - >
-                  /tmp/sendEmail.sh
+                  python2 /tmp/gmail.py
       volumes:
         - name: postgredb
           persistentVolumeClaim:

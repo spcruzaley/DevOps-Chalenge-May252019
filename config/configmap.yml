@@ -8,10 +8,8 @@ data:
   POSTGRES_DB: WORKSHOP
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: Aw3s0m3
-  GMAIL_SENDER: develop.cruzaley.test@gmail.com
   GMAIL_RECEIVER: blendd5@gmail.com
   GMAIL_SUBJECT: Postgres node SHUTDOWN
   GMAIL_BODY: The postgres node was shutting down
-  GMAIL_PASSWORD: t3st1ng-1234.
   #Directory whould be same that mountPath declared on deployment yml file
   WORK_DIR: /tmp

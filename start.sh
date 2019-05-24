@@ -44,16 +44,16 @@ function clean {
 function kubernetesConfig {
   print "Starting Kubernetes config"
   # Set DB data
-  kubectl apply -f ./config/configmap.yml > log 2>/dev/null
+  kubectl apply -f ./config/configmap.yml > log
 
   # Create the persistence storage
-  kubectl apply -f ./config/storage.yml >> log 2>/dev/null
+  kubectl apply -f ./config/storage.yml >> log
 
   # Create postgres deploy and service
-  kubectl create -f ./config/deployment.yml >> log 2>/dev/null
+  kubectl create -f ./config/deployment.yml >> log
 
   # Create postgres service
-  kubectl create -f ./config/service.yml >> log 2>/dev/null
+  kubectl create -f ./config/service.yml >> log
 
   #Copy scripts needed (for DB & email)
   copyScripts
@@ -94,7 +94,7 @@ function podStatus {
   statusForError=''
 
   print "This task could be take some time."
-  echo 
+  echo
   i=0
   while [[ ( ! $statusForError =~ "rror" && -z $statusForRunning) ]]
   do

@@ -19,11 +19,11 @@ fi
 
 logger "Shutting down Kubernetes services..."
 
-kubectl delete service postgres >> log 2>/dev/null
-kubectl delete deployment postgres >> log 2>/dev/null
-kubectl delete configmap postgres-config >> log 2>/dev/null
-kubectl delete persistentvolumeclaim postgres-pv-claim >> log 2>/dev/null
-kubectl delete persistentvolume postgres-pv-volume >> log 2>/dev/null
+kubectl delete service postgres >> log
+kubectl delete deployment postgres >> log
+kubectl delete configmap postgres-config >> log
+kubectl delete persistentvolumeclaim postgres-pv-claim >> log
+kubectl delete persistentvolume postgres-pv-volume >> log
 
 lastStatus='0'
 tag='Terminating'

@@ -3,7 +3,7 @@
 ![alt Digital OnUs](https://www.digitalonus.com/wp-content/uploads/2018/03/cropped-logo.png)
 
 
-**Problem**: Escribir un objeto/controlador de kubernetes para **iniciar una única instancia de PostgreSQL** de acuerdo a lo siguiente:
+**Ejericio**: Escribir un objeto/controlador de kubernetes para **iniciar una única instancia de PostgreSQL** de acuerdo a lo siguiente:
 
   - **Username:** postgres
   - **Password:** Aw3s0m3
@@ -46,6 +46,8 @@ Quizá esta es la parte más confusa de todo el ejercicio, ya que para ello es n
 - **token.pickle**
 
 Primero, para generar el archivo ***credentials.json*** nos dirigimos a *[esta página](https://developers.google.com/gmail/api/quickstart/python)*, en la cuál google nos provee de códigos de ayúda para diferentes lenguajes, en mi caso **utilicé python**
+
+**`NOTA:`**` En el caso de enviar correos (Sin importar el lenguaje que utilicemos), debemos ESPECIFICAR EL SCOPE en el cual vamos a trabajar, esto se hace indicando la(s) url(s), en nuestro caso para el envío de email usaremos la URL https://www.googleapis.com/auth/gmail.send, tal como la documentación indica (https://developers.google.com/gmail/api/auth/scopes).`
 
 ![alt google-step-1](http://www.cruzaley-web.com/wp-content/uploads/2019/05/descarga-credentials-json.png)
 
